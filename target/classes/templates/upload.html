@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Upload</title>
+</head>
+<body>
+    <h2>Upload CSV to ClickHouse</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="csvFile" name="file" accept=".csv" required />
+        <button type="submit">Upload</button>
+    </form>
+
+    <h3>Preview CSV</h3>
+    <table id="csvPreview" border="1"></table>
+
+    <script>
+        document.getElementById('csvFile').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const csvData = event.target.result;
+                const rows = csvData.split('\n');
+                const table = document.getElementById('csvPreview');
+                
+                // Clear previous preview
+                table.innerHTML = '';
+
+                rows.slice(0, 5).forEach((row, index) => {
+                    const cells = row.split(',');
+                    const tr = document.createElement('tr');
+                    cells.forEach(cell => {
+                        const td = document.createElement('td');
+                        td.textContent = cell;
+                        tr.appendChild(td);
+                    });
+                    table.appendChild(tr);
+                });
+            }
+
+            reader.readAsText(file);
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('file', document.getElementById('csvFile').files[0]);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => alert('File uploaded successfully!'))
+            .catch(error => alert('Error uploading file'));
+        });
+    </script>
+</body>
+</html>

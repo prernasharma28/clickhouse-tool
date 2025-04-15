@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickHouse CSV Operations</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2C3E50;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            color: #34495E;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"], button {
+            padding: 12px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+
+        input[type="file"] {
+            background-color: #ecf0f1;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            display: none;
+        }
+
+        .alert.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .alert.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group button {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ClickHouse CSV Upload & Export</h1>
+        
+        <!-- Upload Section -->
+        <div class="form-group">
+            <h3>Upload CSV to ClickHouse</h3>
+            <label for="fileInput">Select CSV File</label>
+            <input type="file" id="fileInput" />
+            <button id="uploadBtn">Upload CSV</button>
+        </div>
+
+        <!-- Export Section -->
+        <div class="form-group">
+            <h3>Export Data from ClickHouse</h3>
+            <button id="exportBtn">Export Data</button>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result" class="alert"></div>
+    </div>
+
+    <div class="footer">
+        <p>Powered by <a href="https://clickhouse.com" target="_blank">ClickHouse</a></p>
+    </div>
+
+    <script>
+        // Function to handle CSV Upload
+        document.getElementById("uploadBtn").addEventListener("click", async function() {
+            const fileInput = document.getElementById("fileInput");
+            if (!fileInput.files[0]) {
+                alert("Please select a file to upload.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                const response = await fetch("http://localhost:8080/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.text();
+                showAlert(result, 'success');
+            } catch (error) {
+                showAlert("Upload failed: " + error.message, 'error');
+            }
+        });
+
+        // Function to handle Data Export
+        document.getElementById("exportBtn").addEventListener("click", async function() {
+            const exportData = {
+                tableName: "uk_price_paid",
+                columns: ["price", "date", "postcode1"],
+                outputFile: "/Users/prernasharma/Desktop/uk_price_paid_sample.csv"
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/api/export", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(exportData)
+                });
+
+                const result = await response.text();
+                showAlert(result, 'success');
+            } catch (error) {
+                showAlert("Export failed: " + error.message, 'error');
+            }
+        });
+
+        // Function to display result alert
+        function showAlert(message, type) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.style.display = 'block';
+            resultDiv.className = `alert ${type === 'success' ? 'success' : 'error'}`;
+            resultDiv.textContent = message;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Export ClickHouse to CSV</title>
+</head>
+<body>
+    <h2>Export from ClickHouse (uk_price_paid)</h2>
+
+    <form id="exportForm">
+        <label>ClickHouse Host:</label>
+        <input type="text" id="host" placeholder="e.g., localhost" required><br>
+
+        <label>Port:</label>
+        <input type="number" id="port" placeholder="e.g., 8123" required><br>
+
+        <label>Database:</label>
+        <input type="text" id="database" placeholder="e.g., default" required><br>
+
+        <label>Username:</label>
+        <input type="text" id="user" placeholder="e.g., default" required><br>
+
+        <label>JWT Token:</label>
+        <input type="text" id="jwt" placeholder="JWT Token" required><br>
+
+        <h4>Select Columns:</h4>
+        <div id="columns">
+            <!-- You can modify this list based on the actual schema -->
+            <input type="checkbox" name="columns" value="price_paid"> price_paid<br>
+            <input type="checkbox" name="columns" value="postcode"> postcode<br>
+            <input type="checkbox" name="columns" value="property_type"> property_type<br>
+            <input type="checkbox" name="columns" value="old_new"> old_new<br>
+            <input type="checkbox" name="columns" value="duration"> duration<br>
+            <input type="checkbox" name="columns" value="paon"> paon<br>
+            <input type="checkbox" name="columns" value="street"> street<br>
+        </div>
+
+        <button type="submit">Export CSV</button>
+    </form>
+
+    <p id="status"></p>
+
+    <script>
+        document.getElementById('exportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const host = document.getElementById('host').value;
+            const port = document.getElementById('port').value;
+            const database = document.getElementById('database').value;
+            const user = document.getElementById('user').value;
+            const jwt = document.getElementById('jwt').value;
+
+            const checkboxes = document.querySelectorAll('input[name="columns"]:checked');
+            const selectedColumns = Array.from(checkboxes).map(cb => cb.value);
+
+            if (selectedColumns.length === 0) {
+                alert("Please select at least one column.");
+                return;
+            }
+
+            fetch('/export', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    host,
+                    port,
+                    database,
+                    user,
+                    jwtToken: jwt,
+                    tableName: 'uk_price_paid',
+                    columns: selectedColumns
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('status').innerText = "Export successful. File saved.";
+            })
+            .catch(err => {
+                document.getElementById('status').innerText = "Export failed: " + err;
+            });
+        });
+    </script>
+</body>
+</html>
