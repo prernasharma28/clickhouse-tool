@@ -9,7 +9,7 @@
         <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
+<!-- test -->
     <groupId>com.example</groupId>
     <artifactId>dataingestion</artifactId>
     <version>0.0.1-SNAPSHOT</version>
