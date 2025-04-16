@@ -8,7 +8,7 @@ A Spring Boot application that supports bi-directional data ingestion between Cl
 - ✅ Secure access with login : 
 
 ## 🔐 Security Credentials:
-Username | Password
+Username | Password : 
 admin | admin123
 
 
