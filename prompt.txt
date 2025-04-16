@@ -1,29 +1,15 @@
-# Commands used in this project
+## 🤖 How AI Helped in Development
 
-## Git Initialization & GitHub
-git init
-git add .
-git commit -m "upload csv file and export data"
-git branch -M main
-git remote add origin https://github.com/prernasharma28/dataingestion.git
-git push -u origin main
+1. I utilized AI to effectively deconstruct complex project requirements into manageable modules, including CSV parsing, ClickHouse integration, and seamless frontend-backend communication. This approach allowed for a well-structured and efficient development process.
 
-## Docker Commands for ClickHouse
-docker pull clickhouse/clickhouse-server
-docker run -d --name clickhouse-server -p 8123:8123 clickhouse/clickhouse-server
-docker ps
-docker exec -it clickhouse-server clickhouse-client
+2. To gain a deeper understanding of JDBC’s interaction with ClickHouse and best practices for securely handling large file uploads in Spring Boot, I consulted AI for expert insights, which ultimately helped me configure the backend optimally.
 
-## Spring Boot Commands
-mvn clean install
-mvn spring-boot:run
+3. AI played a key role in enhancing the structure of my HTML, CSS, and JavaScript code and improving API error handling. By focusing on user experience and code maintainability, I was able to develop a more robust and scalable frontend.
 
-## JWT & Security Setup(I want to do this, but unfortunately, errors occurred.)
-- Implemented password encryption using BCrypt
-- Added JWTUtil.java for token generation and validation
-- Enabled JWT-based authentication using Spring Security
+4. With AI’s assistance, I streamlined the data import/export process by designing an intuitive sequence, such as previewing data before execution, which was further validated by peers for usability.
 
-## Testing
-- CSV file uploaded via frontend to backend (Spring Boot → ClickHouse)
-- Exported data tested via browser download & API
-- Login/signup tested with token validation
+5. For advanced features like auto-table creation and secure large file uploads, AI helped me cross-check best practices and ensure that edge cases and security vulnerabilities were fully addressed.
+
+6. While I personally crafted the core README, AI assisted in refining the language, enhancing clarity, and ensuring the documentation was comprehensive and approachable for users at all levels.
+
+> Note: The frontend and backend were implemented in a unified structure using plain HTML, CSS, and JavaScript without separate folders.
