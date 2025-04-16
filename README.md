@@ -20,9 +20,6 @@ A user-friendly web application for transferring data between ClickHouse databas
 
 ---
 
-## 🎥 Demo Video
-[Watch a quick demo of ClickSync in action](https://drive.google.com/file/d/1-HHlNcGpbFCDgX8F-ELOcvZX01GvlLFt/view?usp=sharing)
-
 ---
 
 ## ⚙️ System Architecture
@@ -34,7 +31,7 @@ A user-friendly web application for transferring data between ClickHouse databas
 
 ## 🔧 Prerequisites
 
-- **Java** (JDK 11 or higher)
+- **Java** (JDK 17)
 - **Maven**
 - **ClickHouse** server (local or remote)
 
