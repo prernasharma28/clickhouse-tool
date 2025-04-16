@@ -1,102 +1,147 @@
-/* Reset default */
-* {
+/* Reset and base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #fce4ec);
   margin: 0;
   padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login Section */
+#loginSection {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: left; /* Changed from center */
+  animation: fadeIn 1s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Heading */
+#loginSection h2 {
+  margin-bottom: 10px;
+  font-size: 26px;
+  color: #333;
+  text-align: center;
+}
+
+/* Label Styling */
+#loginSection label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* Input Styling */
+#loginSection input[type="text"],
+#loginSection input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-size: 14px;
   box-sizing: border-box;
 }
 
-/* Body styling */
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f4f8;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 60px 20px;
-  color: #333;
-  min-height: 100vh;
+#loginSection input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+  outline: none;
 }
 
-/* Section container */
-#loginSection, #operationSection {
+/* Login Button */
+#loginBtn {
+  width: 100%;
+  padding: 12px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#loginBtn:hover {
+  background: #357ab8;
+}
+
+
+/* Main Operation Section */
+#operationSection {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
   background-color: #ffffff;
   padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 40px;
-  transition: transform 0.5s ease;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* Headings */
-#loginSection h2,
-#operationSection h1,
-h3 {
-  color: #0066cc;
-  text-align: center;
+/* Form Group Sections */
+.form-group {
   margin-bottom: 30px;
+  padding: 25px;
+  border: 2px solid #eeeeee;
+  border-radius: 15px;
+  background-color: #fafafa;
 }
 
-/* Labels and inputs */
-label {
+.form-group h3 {
+  margin-bottom: 15px;
+  color: #4a4a4a;
+}
+
+.form-group label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 500;
   color: #555;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="file"] {
+.form-group input[type="text"],
+.form-group input[type="file"] {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 25px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  border: 2px solid #ccc;
   border-radius: 10px;
-  font-size: 16px;
-  background-color: #fafafa;
-  transition: border-color 0.3s ease;
+  margin-bottom: 15px;
+  font-size: 14px;
 }
 
-input:focus {
-  border-color: #3399ff;
-  outline: none;
-  background-color: #fff;
-}
-
-/* Buttons */
+/* All Buttons */
 button {
-  width: 100%;
-  padding: 14px;
-  background-color: #3399ff;
-  color: white;
-  font-size: 16px;
-  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
   border-radius: 10px;
-  font-weight: 600;
+  border: none;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: #4caf50;
+  color: white;
 }
 
 button:hover {
-  background-color: #267acc;
+  background-color: #388e3c;
 }
 
-/* Form group spacing */
-.form-group {
-  margin-bottom: 40px;
-}
-
-/* Result and preview boxes */
-#result {
-  display: none;
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: 600;
-  margin-top: 30px;
+/* Alert + Preview Section */
+.alert {
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 10px;
   text-align: center;
+  font-weight: bold;
 }
 
 .success {
@@ -109,41 +154,24 @@ button:hover {
   color: #721c24;
 }
 
-#previewResult {
-  display: none;
-  background-color: #f0f0f0;
-  padding: 20px;
+.preview {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 15px;
   border-radius: 10px;
+  margin-top: 15px;
+  font-family: monospace;
   white-space: pre-wrap;
-  font-family: 'Courier New', monospace;
-  color: #222;
-  margin-top: 30px;
 }
 
 /* Animations */
-@keyframes fadeInScale {
+@keyframes fadeIn {
   from {
-      transform: scale(0.95);
       opacity: 0;
+      transform: translateY(-30px);
   }
   to {
-      transform: scale(1);
       opacity: 1;
-  }
-}
-
-#operationSection {
-  display: none;
-  animation: fadeInScale 0.5s forwards;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  #loginSection, #operationSection {
-      padding: 25px;
-  }
-
-  input, button {
-      font-size: 15px;
+      transform: translateY(0);
   }
 }

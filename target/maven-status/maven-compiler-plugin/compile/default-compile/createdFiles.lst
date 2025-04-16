@@ -4,5 +4,4 @@ com/example/dataingestion/ClickHouseController.class
 com/example/dataingestion/ExportRequest.class
 com/example/dataingestion/ClickHouseService.class
 com/example/dataingestion/DataingestionApplication.class
-com/example/dataingestion/config/SecurityConfig.class
 com/example/dataingestion/ExportController.class
