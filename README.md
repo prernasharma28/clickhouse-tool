@@ -145,8 +145,7 @@ Pull requests welcome! For major changes, open an issue first.
 ## 📦 Repo Setup
 
 ```bash
-git clone https://github.com/prernasharma28/dataingestion.git
-cd dataingestion
+git clone https://github.com/prernasharma28/clickhouse-tool.git
 ```
 
 Frontend and backend are in the same root project using plain HTML/CSS/JS.
