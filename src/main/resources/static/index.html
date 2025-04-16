@@ -4,114 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClickHouse CSV Operations</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2C3E50;
-            font-size: 2rem;
-            margin-bottom: 40px;
-        }
-
-        h3 {
-            color: #34495E;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        input[type="file"], button {
-            padding: 12px 20px;
-            margin-top: 10px;
-            border-radius: 5px;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            width: 100%;
-        }
-
-        input[type="file"] {
-            background-color: #ecf0f1;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .alert {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 1rem;
-            display: none;
-        }
-
-        .alert.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .alert.error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 40px;
-        }
-
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .form-group button {
-            width: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-    <div class="container">
-        <h1>ClickHouse CSV Upload & Export</h1>
+    <!-- Login Section -->
+    <div id="loginSection">
+        <h2>Login</h2>
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter username" />
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" />
+        <button id="loginBtn">Login</button>
+    </div>
+
+    <!-- Main Operations Section (Initially hidden) -->
+    <div id="operationSection" style="display: none;">
+        <!-- <h1>ClickHouse CSV Upload & Export</h1> -->
         
         <!-- Upload Section -->
         <div class="form-group">
@@ -127,15 +35,62 @@
             <button id="exportBtn">Export Data</button>
         </div>
 
+        <!-- Preview Section -->
+        <div class="form-group">
+            <h3>Preview Data from ClickHouse</h3>
+            <label for="tableName">Table Name</label>
+            <input type="text" id="tableName" placeholder="Enter table name" />
+            
+            <label for="columns">Columns (comma separated)</label>
+            <input type="text" id="columns" placeholder="Enter columns (e.g. column1, column2)" />
+            
+            <button id="previewBtn">Preview Data</button>
+        </div>
+
         <!-- Result Section -->
         <div id="result" class="alert"></div>
-    </div>
-
-    <div class="footer">
-        <p>Powered by <a href="https://clickhouse.com" target="_blank">ClickHouse</a></p>
+        <div id="previewResult"></div>
     </div>
 
     <script>
+        let authHeader = '';  // To store the authentication header
+
+        // Handle Login
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                alert('Please enter both username and password.');
+                return;
+            }
+
+            // Basic Auth encoding
+            authHeader = 'Basic ' + btoa(username + ':' + password);
+
+            // Try to test connection after login
+            testConnection();
+        });
+
+        // Test connection to backend after login
+        function testConnection() {
+            fetch("http://localhost:8080/api/clickhouse/test-connection", {
+                method: 'GET',
+                headers: {
+                    "Authorization": authHeader
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('loginSection').style.display = 'none';  // Hide login section
+                    document.getElementById('operationSection').style.display = 'block';  // Show operations section
+                } else {
+                    alert('Login failed. Please check your credentials.');
+                }
+            })
+            .catch(error => alert('Error: ' + error.message));
+        }
+
         // Function to handle CSV Upload
         document.getElementById("uploadBtn").addEventListener("click", async function() {
             const fileInput = document.getElementById("fileInput");
@@ -150,6 +105,9 @@
             try {
                 const response = await fetch("http://localhost:8080/upload", {
                     method: "POST",
+                    headers: {
+                        "Authorization": authHeader
+                    },
                     body: formData
                 });
 
@@ -184,12 +142,53 @@
             }
         });
 
+
+        // Function to handle Preview
+        document.getElementById("previewBtn").addEventListener("click", async function() {
+            const tableName = document.getElementById("tableName").value;
+            const columns = document.getElementById("columns").value.split(",").map(col => col.trim());
+
+            if (!tableName || columns.length === 0) {
+                alert("Please provide table name and columns.");
+                return;
+            }
+
+            const previewRequest = {
+                tableName: tableName,
+                columns: columns
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/api/clickhouse/preview", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": authHeader
+                    },
+                    body: JSON.stringify(previewRequest)
+                });
+
+                const result = await response.text();
+                showPreview(result);
+            } catch (error) {
+                showAlert("Preview failed: " + error.message, 'error');
+            }
+        });
+
         // Function to display result alert
         function showAlert(message, type) {
             const resultDiv = document.getElementById("result");
             resultDiv.style.display = 'block';
             resultDiv.className = `alert ${type === 'success' ? 'success' : 'error'}`;
             resultDiv.textContent = message;
+        }
+
+        // Function to display preview result
+        function showPreview(data) {
+            const previewDiv = document.getElementById("previewResult");
+            previewDiv.style.display = 'block';
+            previewDiv.className = 'preview';
+            previewDiv.textContent = data;  // Display the preview data from the response
         }
     </script>
 </body>

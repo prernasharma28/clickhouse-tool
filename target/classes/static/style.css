@@ -1,29 +1,149 @@
+/* Reset default */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    padding: 40px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f4f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 20px;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Section container */
+#loginSection, #operationSection {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 40px;
+  transition: transform 0.5s ease;
+}
+
+/* Headings */
+#loginSection h2,
+#operationSection h1,
+h3 {
+  color: #0066cc;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Labels and inputs */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #3399ff;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #3399ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #267acc;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 40px;
+}
+
+/* Result and preview boxes */
+#result {
+  display: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+#previewResult {
+  display: none;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  color: #222;
+  margin-top: 30px;
+}
+
+/* Animations */
+@keyframes fadeInScale {
+  from {
+      transform: scale(0.95);
+      opacity: 0;
   }
-  
-  .container {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 500px;
-    margin: auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  to {
+      transform: scale(1);
+      opacity: 1;
   }
-  
-  input[type="file"] {
-    margin-bottom: 15px;
+}
+
+#operationSection {
+  display: none;
+  animation: fadeInScale 0.5s forwards;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #loginSection, #operationSection {
+      padding: 25px;
   }
-  
-  #previewContainer {
-    margin-top: 20px;
-    background: #fafafa;
-    padding: 10px;
-    border-radius: 5px;
-    max-height: 200px;
-    overflow-y: auto;
-    font-family: monospace;
+
+  input, button {
+      font-size: 15px;
   }
-  
+}
