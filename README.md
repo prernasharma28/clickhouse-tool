@@ -123,10 +123,9 @@ Use sample ClickHouse tables like `uk_price_paid` with columns such as:
 
 1. Used AI to break down project requirements into manageable modules (CSV parsing, ClickHouse integration, etc.)
 2. Consulted AI for best practices around JDBC and secure large file uploads
-3. Enhanced React-like component behavior and error handling using AI advice (applied with vanilla JS)
-4. Streamlined workflow for intuitive usability (e.g., preview before execution)
-5. Used AI to validate advanced features like auto table creation and edge-case handling
-6. Refined documentation language and structure using AI guidance
+3. Streamlined workflow for intuitive usability (e.g., preview before execution)
+4. Used AI to validate advanced features like auto table creation and edge-case handling
+5. Refined documentation language and structure using AI guidance
 
 ---
 
