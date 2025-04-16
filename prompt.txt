@@ -1,0 +1,29 @@
+# Commands used in this project
+
+## Git Initialization & GitHub
+git init
+git add .
+git commit -m "upload csv file and export data"
+git branch -M main
+git remote add origin https://github.com/prernasharma28/dataingestion.git
+git push -u origin main
+
+## Docker Commands for ClickHouse
+docker pull clickhouse/clickhouse-server
+docker run -d --name clickhouse-server -p 8123:8123 clickhouse/clickhouse-server
+docker ps
+docker exec -it clickhouse-server clickhouse-client
+
+## Spring Boot Commands
+mvn clean install
+mvn spring-boot:run
+
+## JWT & Security Setup(I want to do this, but unfortunately, errors occurred.)
+- Implemented password encryption using BCrypt
+- Added JWTUtil.java for token generation and validation
+- Enabled JWT-based authentication using Spring Security
+
+## Testing
+- CSV file uploaded via frontend to backend (Spring Boot → ClickHouse)
+- Exported data tested via browser download & API
+- Login/signup tested with token validation
